@@ -1,6 +1,6 @@
 # Final Graphics Project  
 
-##To Do  
+## To Do  
 
 1. .OBJ Mesh Importing
 * put verticies in list
