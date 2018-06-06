@@ -1,2 +1,2 @@
-# graphics_final_project
-2018 Graphics final project
+# mdl_animation
+2018 Graphics making animations
