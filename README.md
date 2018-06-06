@@ -1,5 +1,6 @@
-# Final Graphics Project     
-To Do  
+# Final Graphics Project  
+
+##To Do  
 
 1. .OBJ Mesh Importing
 * put verticies in list
@@ -25,7 +26,7 @@ Maybe
 * Gouraud shading     
      
 
-# Parsing Obj     
+## Parsing Obj     
      
 v = vertices (**float** coordinate, **float**, **float**)     
 g = group name (optional **string**)     
