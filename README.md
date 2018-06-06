@@ -12,3 +12,11 @@ Side
 
 Maybe
 * Gouraud shading
+
+
+# Parsing Obj
+
+v = vertices (**float** coordinate, **float**, **float**)
+g = group name (optional **string**)
+s = smoothing group (**off/1**)
+f = face (**int** index of v1, **int**, **int**)
