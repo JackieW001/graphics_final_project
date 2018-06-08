@@ -1,21 +1,28 @@
+from display import *
+from matrix import *
+from math import *
+from gmath import *
 # -*- coding: utf-8 -*-
 
 file  = open("test.txt", "r")
 lines = [line.rstrip('\n') for line in file]
 
-grouplist = []
 vertexlist = []
-for vertex in lines:
-	if vertex == "g":
-		grouplist.append(vertexlist)
-		vertexlist = []
-	else:	
-		v = []
-		v.append(vertex.split()[1])
-		v.append(vertex.split()[2])
-		v.append(vertex.split()[3])
+facelist = []
+for i in lines:
+        cmd = i[0]
+        if cmd == "v":
+                v = [x for x in i.split()][1:]
+                v = [float(x) for x in v]
 		vertexlist.append(v)
-		#print vertexlist
+        if cmd == "f":
+                args = [x for x in i.split()][1:]
+                f = [vertexlist[int(x)] for x in args]
+                facelist.append(f)
+                
 
-grouplist.append(vertexlist)
-print grouplist
+print "--------- VERTEXT LIST -----------"
+print vertexlist
+print "--------- POLYGON LIST -----------"
+print facelist
+
