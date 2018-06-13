@@ -292,6 +292,43 @@ def run_obj(f):
     facelist = get_face_list(f)
     add_faces(polygons, facelist)
 
+    print polygons
+    tmp = []
+    tmp = make_scale(30,30,30)
+    matrix_mult(tmp, polygons)
+    tmp = make_rotY(20)
+    matrix_mult(tmp, polygons)
+    tmp = make_rotX(20)
+    matrix_mult(tmp, polygons)
+    tmp=make_translate(200, 200, 0)
+    matrix_mult(tmp, polygons)
+    
+    #print polygons
+
+    '''
+     elif c == 'move':
+         tmp = make_translate(args[0], args[1], args[2])
+         matrix_mult(polygons, tmp)
+         stack[-1] = [x[:] for x in tmp]
+         tmp = []
+     elif c == 'scale':
+         tmp = make_scale(args[0], args[1], args[2])
+         matrix_mult(polygons, tmp)
+         stack[-1] = [x[:] for x in tmp]
+         tmp = []
+     elif c == 'rotate':
+         theta = args[1] * (math.pi/180)
+         if args[0] == 'x':
+             tmp = make_rotX(theta)
+         elif args[0] == 'y':
+             tmp = make_rotY(theta)
+         else:
+             tmp = make_rotZ(theta)
+             matrix_mult(polygons, tmp )
+             stack[-1] = [ x[:] for x in tmp]
+             tmp = []
+    '''
+
     draw_polygons(polygons, screen, zbuffer, view, ambient, light, areflect, dreflect, sreflect)
     display(screen)
 
