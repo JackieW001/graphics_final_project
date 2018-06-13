@@ -7,5 +7,6 @@ rotate x 10
 mesh:airboat
 pop
 display
+save airboat.png
 
 

@@ -1,4 +1,4 @@
-from script import run, run_obj
+from script import run
 import sys
 
 if len(sys.argv) == 2:
