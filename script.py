@@ -72,7 +72,6 @@ def first_pass( commands ):
 def second_pass(commands):
     global knobs
     global num_frames
-
     for i in range(int(num_frames)):
         knobs.append({})
 
@@ -136,6 +135,7 @@ def run(filename):
     coords1 = []
 
     p = mdl.parseFile(filename)
+    print p
 
     if p:
         (commands, symbols) = p
@@ -156,7 +156,7 @@ def run(filename):
             symbols[knob][1] = knobs[frame][knob]
 
         for command in commands:
-            #print command
+            print command
             c = command['op']
             args = command['args']
             if not args == None:
@@ -207,6 +207,15 @@ def run(filename):
                 matrix_mult( stack[-1], tmp )
                 draw_lines(tmp, screen, zbuffer, color)
                 tmp = []
+                
+            elif c == 'mesh':
+                f = args[0]+".obj"
+                facelist = get_face_list(f)
+                add_faces(tmp, facelist)
+                matrix_mult( stack[-1], tmp )
+                draw_polygons(tmp, screen, zbuffer, view, ambient, light, areflect, dreflect, sreflect)
+                tmp = []
+
             elif c == 'move':
                 tmp = make_translate(args[0], args[1], args[2])
                 matrix_mult(stack[-1], tmp)

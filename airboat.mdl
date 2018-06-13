@@ -1,0 +1,11 @@
+
+push
+move 250 250 0
+scale 25 25 25
+rotate y -45
+rotate x 10
+mesh:airboat
+pop
+display
+
+

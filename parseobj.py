@@ -18,30 +18,18 @@ def get_face_list(f):
 		listed_line = line.rstrip('\n').split(" ")
 		cmd = listed_line[0]
 		if cmd == "v":
-
-			print linenumb,"|"
-
 			v = listed_line[1:]
 			v = [float(x) for x in v]
 			vertexlist.append(v)
 
 		elif cmd == "f":
-			print linenumb, "|"
-			print len(vertexlist)
 			args = listed_line[1:]
 			args = [int(x) for x in args]
 			face = []
 			for i in args:
-
-				print i, " ", vertexlist[i-1]
 				face.append(vertexlist[i-1])
-
 			facelist.append(face)
 
-		else:
-			print linenumb,"|"
-
-		linenumb += 1
 	return facelist
 
 
@@ -80,9 +68,9 @@ def add_faces(polygons, facelist):
 			print "Too few points for face"
 		else:
 			for i in range(len(face)-2):
-
-				if i == 0: 
-					polygon_adder(polygons, face[0],face[1],face[2])
+                                
+			        if i == 0: 
+				        polygon_adder(polygons, face[0],face[1],face[2])
 
 				elif i == len(face)-3: 
 					polygon_adder(polygons, face[2],face[i+2],face[0])
