@@ -1,5 +1,8 @@
-# Final Graphics Project  
+# 2018 Spring Final Graphics Project  
 
+Period 4
+Jackie Woo
+Eric Li
 ##  New Functionality  
 
 1. .OBJ Mesh Importing
