@@ -54,7 +54,7 @@ def draw_faces(polygons, facelist):
 		if len(face) < 3:
 			print "Too few points for face"
 
-		elif len(face[face]) == 3:
+		elif len(face) == 3:
 			polygon_adder(polygons, face[0], face[1], face[2])
 
 		elif len(face) == 4:

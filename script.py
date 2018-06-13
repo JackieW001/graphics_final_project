@@ -95,7 +95,7 @@ def second_pass(commands):
                 knobs[i][knob] = curr
                 curr += increment
 
-def run(filename):
+def run(filename, obj = False):
     """
     This function runs an mdl script
     """
