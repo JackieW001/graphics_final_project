@@ -8,27 +8,44 @@ from draw import *
 
 def get_face_list(f):
 	file  = open(f, "r")
-	lines = [line.rstrip('\n') for line in file]
-	#print lines
 
-	#Basic parsing through OBJ
 	vertexlist = []
 	facelist = []
-	for i in lines:
-	        cmd = i.split(" ")[0]
-	        if cmd == "v":
-				v = [x for x in i.split()][1:]
-				v = [float(x) for x in v]
-				vertexlist.append(v)
-	        if cmd == "f":
-				#print "===="
-				args = [x for x in i.split()][1:]
-				#print args
-				f = [vertexlist[int(x)-1] for x in args]
-				facelist.append(f)
-	return facelist
-          
 
+
+	linenumb = 1
+	for line in file:
+		listed_line = line.rstrip('\n').split(" ")
+		cmd = listed_line[0]
+		if cmd == "v":
+
+			print linenumb,"|"
+
+			v = listed_line[1:]
+			v = [float(x) for x in v]
+			vertexlist.append(v)
+
+		elif cmd == "f":
+			print linenumb, "|"
+			print len(vertexlist)
+			args = listed_line[1:]
+			args = [int(x) for x in args]
+			face = []
+			for i in args:
+
+				print i, " ", vertexlist[i-1]
+				face.append(vertexlist[i-1])
+
+			facelist.append(face)
+
+		else:
+			print linenumb,"|"
+
+		linenumb += 1
+	return facelist
+
+
+	
 
 
 #Parsing for polygons
@@ -47,37 +64,33 @@ def get_face_list(f):
 
 #helper function 
 def polygon_adder(polygons, face0, face1, face2):
-	add_polygon(polygons, face0[0], face0[1], face0[2],
-						  face1[0], face1[1], face1[2],
-						  face2[0], face2[1], face2[2])
+	'''
+	print "====================="
+	print face0
+	print face1
+	print face2
+	print "====================="
+	'''
+	add_polygon(polygons, face0[0], face0[1], face0[2],face1[0], face1[1], face1[2],face2[0], face2[1], face2[2])
 
 
-def draw_faces(polygons, facelist):
+def add_faces(polygons, facelist):
 	for face in facelist:
 		if len(face) < 3:
 			print "Too few points for face"
-
-		elif len(face) == 3:
-			polygon_adder(polygons, face[0], face[1], face[2])
-
-		elif len(face) == 4:
-			polygon_adder(polygons, face[0], face[1], face[2])
-			polygon_adder(polygons, face[0], face[2], face[3])
-
-		elif len(face) == 5:
-			polygon_adder(polygons, face[0], face[1], face[2])
-			polygon_adder(polygons, face[2], face[3], face[4])
-			polygon_adder(polygons, face[0], face[2], face[4])
-
-		elif len(face) == 6:
-			polygon_adder(polygons, face[0], face[1], face[2])
-			polygon_adder(polygons, face[2], face[3], face[4])
-			polygon_adder(polygons, face[2], face[4], face[5])
-			polygon_adder(polygons, face[0], face[2], face[5])
-
 		else:
-			print len(face)
-			print "Faces has too many points"
+			for i in range(len(face)-2):
+
+				if i == 0: 
+					polygon_adder(polygons, face[0],face[1],face[2])
+
+				elif i == len(face)-3: 
+					polygon_adder(polygons, face[2],face[i+2],face[0])
+
+				else:
+					polygon_adder(polygons, face[2],face[i+2],face[i+3])
+
+	return polygons
 
 
 
@@ -87,6 +100,10 @@ print vertexlist
 print "--------- POLYGON LIST -----------"
 print facelist
 '''
-
-
-
+'''
+polygons= []
+x = get_face_list('test.txt')
+print "+========= face list =========="
+print x
+print draw_faces(polygons, x)
+'''

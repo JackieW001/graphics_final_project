@@ -290,9 +290,10 @@ def run_obj(f):
 
 
     facelist = get_face_list(f)
+    add_faces(polygons, facelist)
 
-    draw_faces(polygons, facelist)
-    draw_polygons(tmp, screen, zbuffer, view, ambient, light, areflect, dreflect, sreflect)
+    draw_polygons(polygons, screen, zbuffer, view, ambient, light, areflect, dreflect, sreflect)
+    display(screen)
 
 
 
