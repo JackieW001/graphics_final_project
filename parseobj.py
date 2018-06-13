@@ -5,25 +5,28 @@ from gmath import *
 from draw import *
 # -*- coding: utf-8 -*-
 
-file  = open("airboat.obj", "r")
-lines = [line.rstrip('\n') for line in file]
-#print lines
 
-#Basic parsing through OBJ
-vertexlist = []
-facelist = []
-for i in lines:
-        cmd = i.split(" ")[0]
-        if cmd == "v":
-			v = [x for x in i.split()][1:]
-			v = [float(x) for x in v]
-			vertexlist.append(v)
-        if cmd == "f":
-			#print "===="
-			args = [x for x in i.split()][1:]
-			#print args
-			f = [vertexlist[int(x)-1] for x in args]
-			facelist.append(f)
+def get_face_list(f):
+	file  = open(f, "r")
+	lines = [line.rstrip('\n') for line in file]
+	#print lines
+
+	#Basic parsing through OBJ
+	vertexlist = []
+	facelist = []
+	for i in lines:
+	        cmd = i.split(" ")[0]
+	        if cmd == "v":
+				v = [x for x in i.split()][1:]
+				v = [float(x) for x in v]
+				vertexlist.append(v)
+	        if cmd == "f":
+				#print "===="
+				args = [x for x in i.split()][1:]
+				#print args
+				f = [vertexlist[int(x)-1] for x in args]
+				facelist.append(f)
+	return facelist
           
 
 
@@ -48,7 +51,7 @@ def polygon_adder(polygons, face0, face1, face2):
 						  face1[0], face1[1], face1[2],
 						  face2[0], face2[1], face2[2])
 
-polygons = []
+
 def draw_faces(polygons, facelist):
 	for face in facelist:
 		if len(face) < 3:
@@ -73,6 +76,7 @@ def draw_faces(polygons, facelist):
 			polygon_adder(polygons, face[0], face[2], face[5])
 
 		else:
+			print len(face)
 			print "Faces has too many points"
 
 
@@ -84,7 +88,5 @@ print "--------- POLYGON LIST -----------"
 print facelist
 '''
 
-for face in facelist:
-	print face[0]
 
 

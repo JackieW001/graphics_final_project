@@ -1,4 +1,4 @@
-from script import run
+from script import run, run_obj
 import sys
 
 
@@ -10,7 +10,13 @@ if sys.argv[1].endswith('.obj'):
 
 
 if len(sys.argv) == 2:
-    run(sys.argv[1], obj)
+
+	if obj:
+		run_obj(sys.argv[1])
+
+	else:
+		run(sys.argv[1])
+
 elif len(sys.argv) == 1:
     run(raw_input("please enter the filename of an mdl script file: \n"))
 else:
