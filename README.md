@@ -1,8 +1,8 @@
 # 2018 Spring Final Graphics Project  
 
 Period 4
-Jackie Woo
-Eric Li
+
+Jackie Woo, Eric Li
 
 ## Running 
 1. Install Xquartz
