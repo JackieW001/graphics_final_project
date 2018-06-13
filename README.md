@@ -1,9 +1,7 @@
 # 2018 Spring Final Graphics Project  
 
 Period 4
-
 Jackie Woo
-
 Eric Li
 
 ## Running 
