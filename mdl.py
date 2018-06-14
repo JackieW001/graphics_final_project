@@ -195,21 +195,20 @@ def p_command_pyramid(p):
     commands.append(cmd)
     
 def p_command_tetrahedron(p):
-
-    """command : TETRAHEDRON NUMBER NUMBER NUMBER NUMBER NUMBER NUMBER NUMBER NUMBER NUMBER NUMBER NUMBER NUMBER NUMBER NUMBER NUMBER NUMBER
-               | TETRAHEDRON NUMBER NUMBER NUMBER NUMBER NUMBER NUMBER NUMBER NUMBER NUMBER NUMBER NUMBER NUMBER NUMBER NUMBER NUMBER NUMBER SYMBOL
-               | TETRAHEDRON SYMBOL NUMBER NUMBER NUMBER NUMBER NUMBER NUMBER NUMBER NUMBER NUMBER NUMBER NUMBER NUMBER NUMBER NUMBER NUMBER NUMBER
-               | TETRAHEDRON SYMBOL NUMBER NUMBER NUMBER NUMBER NUMBER NUMBER NUMBER NUMBER NUMBER NUMBER NUMBER NUMBER NUMBER NUMBER NUMBER NUMBER SYMBOL"""
+    """command : TETRAHEDRON NUMBER NUMBER NUMBER NUMBER
+               | TETRAHEDRON NUMBER NUMBER NUMBER NUMBER SYMBOL
+               | TETRAHEDRON SYMBOL NUMBER NUMBER NUMBER NUMBER 
+               | TETRAHEDRON SYMBOL NUMBER NUMBER NUMBER NUMBER SYMBOL"""
     cmd = {'op' : p[1], 'constants' : None, 'cs' : None, 'args':[]}
     arg_start = 2
     if isinstance(p[2], str):
         cmd['constants'] = p[2]
         arg_start = 3
-    if len(p) == 15 and isinstance(p[14], str):
+    if len(p) == 7 and isinstance(p[6], str):
         cmd['cs'] = p[14]
-    if len(p) == 16 and isinstance(p[15], str):
+    if len(p) ==8 and isinstance(p[7], str):
           cmd['cs'] = p[15]
-    cmd['args'] = p[arg_start:arg_start+12]
+    cmd['args'] = p[arg_start:arg_start+4]
     commands.append(cmd)
     
 def p_command_cylinder(p):
