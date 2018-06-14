@@ -135,7 +135,11 @@ def run(filename):
     coords1 = []
 
     p = mdl.parseFile(filename)
-    print p
+    
+    print "Printing p ========================="
+    for each in p[0]:
+        print each
+    print "===================================="
 
     if p:
         (commands, symbols) = p

@@ -14,9 +14,11 @@ tokens = (
     "AMBIENT",
     "TORUS",
     "SPHERE",
-    "PYRAMID",
+    "BOX",
     "CONE",
-    "BOX", 
+    "CYLINDER",
+    "PYRAMID",
+    "TETRAHEDRON",
     "LINE", 
     "MESH", 
     "TEXTURE", 
@@ -41,13 +43,9 @@ tokens = (
     "SCREEN", 
     "WEB", 
     "CO",
-    "TETRAHEDRON",
-    "CYLINDER",
     "VIEW",
-    "AMBIENT",
-    "LIGHT",
     "AREFLECT",
-    "DREFLECT",
+    "DREFELCT",
     "SREFLECT"
 )
 
@@ -64,6 +62,11 @@ reserved = {
     "torus" : "TORUS",
     "sphere" : "SPHERE",
     "box" : "BOX",
+    "cylinder" : "CYLINDER",
+    "cone" : "CONE",
+    "pyramid" : "PYRAMID",
+    "tetrahedron" : "TETRAHEDRON",
+    "truncated_cone":"TRUNCATED_CONE",
     "line" : "LINE",
     "mesh" : "MESH",
     "texture" : "TEXTURE",
@@ -90,16 +93,8 @@ reserved = {
     "focal" : "FOCAL",
     "display" : "DISPLAY",
     "web" : "WEB",
-    "tetrahedron":"TETRAHEDRON",
-    "pyramid":"PYRAMID",
-    "cone":"CONE",
-    "cylinder":"CYLINDER",
-    "view":"VIEW",
-    "ambient":"AMBIENT",
-    "light":"LIGHT",
-    "areflect":"AREFLECT",
-    "dreflect":"DREFLECT",
-    "sreflect":"SREFLECT"
+    "view" : "VIEW",
+
 }
 
 t_ignore = " \t"
@@ -182,6 +177,77 @@ def p_command_show(p):
     """command : DISPLAY"""
     commands.append({'op' : p[1], 'args' : None})
 
+def p_command_pyramid(p):
+    """command : PYRAMID NUMBER NUMBER NUMBER NUMBER NUMBER
+               | PYRAMID SYMBOL NUMBER NUMBER NUMBER NUMBER NUMBER
+               | PYRAMID NUMBER NUMBER NUMBER NUMBER NUMBER SYMBOL
+               | PYRAMID SYMBOL NUMBER NUMBER NUMBER NUMBER NUMBER SYMBOL"""
+    cmd = {'op': p[1], 'constants' : None, 'cs' : None, 'args':[]}
+    arg_start = 2
+    if isinstance(p[2],str):
+        cmd['constants'] = p[2]
+        arg_start = 3
+    if len(p) == 8 and isinstance(p[7],str):
+        cmd['cs'] = p[7]
+    if len(p) == 9 and isinstance(p[8],str):
+        cmd['cs'] = p[8]
+    cmd['args'] = p[arg_start:arg_start+5]
+    commands.append(cmd)
+    
+def p_command_tetrahedron(p):
+
+    """command : TETRAHEDRON NUMBER NUMBER NUMBER NUMBER NUMBER NUMBER NUMBER NUMBER NUMBER NUMBER NUMBER NUMBER NUMBER NUMBER NUMBER NUMBER
+               | TETRAHEDRON NUMBER NUMBER NUMBER NUMBER NUMBER NUMBER NUMBER NUMBER NUMBER NUMBER NUMBER NUMBER NUMBER NUMBER NUMBER NUMBER SYMBOL
+               | TETRAHEDRON SYMBOL NUMBER NUMBER NUMBER NUMBER NUMBER NUMBER NUMBER NUMBER NUMBER NUMBER NUMBER NUMBER NUMBER NUMBER NUMBER NUMBER
+               | TETRAHEDRON SYMBOL NUMBER NUMBER NUMBER NUMBER NUMBER NUMBER NUMBER NUMBER NUMBER NUMBER NUMBER NUMBER NUMBER NUMBER NUMBER NUMBER SYMBOL"""
+    cmd = {'op' : p[1], 'constants' : None, 'cs' : None, 'args':[]}
+    arg_start = 2
+    if isinstance(p[2], str):
+        cmd['constants'] = p[2]
+        arg_start = 3
+    if len(p) == 15 and isinstance(p[14], str):
+        cmd['cs'] = p[14]
+    if len(p) == 16 and isinstance(p[15], str):
+          cmd['cs'] = p[15]
+    cmd['args'] = p[arg_start:arg_start+12]
+    commands.append(cmd)
+    
+def p_command_cylinder(p):
+    """command : CYLINDER NUMBER NUMBER NUMBER NUMBER NUMBER
+               | CYLINDER SYMBOL NUMBER NUMBER NUMBER NUMBER NUMBER
+               | CYLINDER NUMBER NUMBER NUMBER NUMBER NUMBER SYMBOL
+               | CYLINDER SYMBOL NUMBER NUMBER NUMBER NUMBER NUMBER SYMBOL"""
+    cmd = {'op': p[1], 'constants' : None, 'cs' : None, 'args':[]}
+    arg_start = 2
+    if isinstance(p[2],str):
+        cmd['constants'] = p[2]
+        arg_start = 3
+    if len(p) == 8 and isinstance(p[7],str):
+        cmd['cs'] = p[7]
+    if len(p) == 9 and isinstance(p[8],str):
+        cmd['cs'] = p[8]
+    cmd['args'] = p[arg_start:arg_start+5]
+    commands.append(cmd)
+
+def p_command_cone(p):
+    """command : CONE NUMBER NUMBER NUMBER NUMBER NUMBER
+               | CONE SYMBOL NUMBER NUMBER NUMBER NUMBER NUMBER
+               | CONE NUMBER NUMBER NUMBER NUMBER NUMBER SYMBOL
+               | CONE SYMBOL NUMBER NUMBER NUMBER NUMBER NUMBER SYMBOL"""
+    cmd = {'op': p[1], 'constants' : None, 'cs' : None, 'args':[]}
+    arg_start = 2
+    if isinstance(p[2],str):
+        cmd['constants'] = p[2]
+        arg_start = 3
+    if len(p) == 8 and isinstance(p[7],str):
+        cmd['cs'] = p[7]
+    if len(p) == 9 and isinstance(p[8],str):
+        cmd['cs'] = p[8]
+    cmd['args'] = p[arg_start:arg_start+5]
+    commands.append(cmd)
+
+
+    
 def p_command_sphere(p):
     """command : SPHERE NUMBER NUMBER NUMBER NUMBER
                | SPHERE SYMBOL NUMBER NUMBER NUMBER NUMBER
@@ -232,185 +298,6 @@ def p_command_box(p):
           cmd['cs'] = p[9]
     cmd['args'] = p[arg_start:arg_start+6]
     commands.append(cmd)
-
-
-###=============
-
-
-def p_command_view(p):
-    """command : VIEW NUMBER NUMBER NUMBER NUMBER
-               | VIEW NUMBER NUMBER NUMBER NUMBER SYMBOL
-               | VIEW SYMBOL NUMBER NUMBER NUMBER NUMBER 
-               | VIEW SYMBOL NUMBER NUMBER NUMBER NUMBER SYMBOL"""
-    cmd = {'op' : p[1], 'constants' : None, 'cs' : None, 'args':[]}
-    arg_start = 2
-    if isinstance(p[2], str):
-        cmd['constants'] = p[2]
-        arg_start = 3
-    if len(p) == 6 and isinstance(p[5], str):
-        cmd['cs'] = p[5]
-    if len(p) == 7 and isinstance(p[6], str):
-          cmd['cs'] = p[6]
-    cmd['args'] = p[arg_start:arg_start+3]
-    commands.append(cmd)
-
-def p_command_ambient(p):
-    """command : AMBIENT NUMBER NUMBER NUMBER NUMBER
-               | AMBIENT NUMBER NUMBER NUMBER NUMBER SYMBOL
-               | AMBIENT SYMBOL NUMBER NUMBER NUMBER NUMBER 
-               | AMBIENT SYMBOL NUMBER NUMBER NUMBER NUMBER SYMBOL"""
-    cmd = {'op' : p[1], 'constants' : None, 'cs' : None, 'args':[]}
-    arg_start = 2
-    if isinstance(p[2], str):
-        cmd['constants'] = p[2]
-        arg_start = 3
-    if len(p) == 6 and isinstance(p[5], str):
-        cmd['cs'] = p[5]
-    if len(p) == 7 and isinstance(p[6], str):
-          cmd['cs'] = p[6]
-    cmd['args'] = p[arg_start:arg_start+3]
-    commands.append(cmd)
-
-def p_command_light(p):
-    """command : LIGHT NUMBER NUMBER NUMBER NUMBER NUMBER
-               | LIGHT SYMBOL NUMBER NUMBER NUMBER NUMBER NUMBER
-               | LIGHT NUMBER NUMBER NUMBER NUMBER NUMBER SYMBOL
-               | LIGHT SYMBOL NUMBER NUMBER NUMBER NUMBER NUMBER SYMBOL"""
-    cmd = {'op': p[1], 'constants' : None, 'cs' : None, 'args':[]}
-    arg_start = 2
-    if isinstance(p[2],str):
-        cmd['constants'] = p[2]
-        arg_start = 3
-    if len(p) == 8 and isinstance(p[7],str):
-        cmd['cs'] = p[7]
-    if len(p) == 9 and isinstance(p[8],str):
-        cmd['cs'] = p[8]
-    cmd['args'] = p[arg_start:arg_start+5]
-    commands.append(cmd)
-
-def p_command_areflect(p):
-    """command : AREFLECT NUMBER NUMBER NUMBER NUMBER
-               | AREFLECT NUMBER NUMBER NUMBER NUMBER SYMBOL
-               | AREFLECT SYMBOL NUMBER NUMBER NUMBER NUMBER 
-               | AREFLECT SYMBOL NUMBER NUMBER NUMBER NUMBER SYMBOL"""
-    cmd = {'op' : p[1], 'constants' : None, 'cs' : None, 'args':[]}
-    arg_start = 2
-    if isinstance(p[2], str):
-        cmd['constants'] = p[2]
-        arg_start = 3
-    if len(p) == 6 and isinstance(p[5], str):
-        cmd['cs'] = p[5]
-    if len(p) == 7 and isinstance(p[6], str):
-          cmd['cs'] = p[6]
-    cmd['args'] = p[arg_start:arg_start+3]
-    commands.append(cmd)
-
-def p_command_dreflect(p):
-    """command : DREFLECT NUMBER NUMBER NUMBER NUMBER
-               | DREFLECT NUMBER NUMBER NUMBER NUMBER SYMBOL
-               | DREFLECT SYMBOL NUMBER NUMBER NUMBER NUMBER 
-               | DREFLECT SYMBOL NUMBER NUMBER NUMBER NUMBER SYMBOL"""
-    cmd = {'op' : p[1], 'constants' : None, 'cs' : None, 'args':[]}
-    arg_start = 2
-    if isinstance(p[2], str):
-        cmd['constants'] = p[2]
-        arg_start = 3
-    if len(p) == 6 and isinstance(p[5], str):
-        cmd['cs'] = p[5]
-    if len(p) == 7 and isinstance(p[6], str):
-          cmd['cs'] = p[6]
-    cmd['args'] = p[arg_start:arg_start+3]
-    commands.append(cmd)
-
-def p_command_sreflect(p):
-    """command : SREFLECT NUMBER NUMBER NUMBER NUMBER
-               | SREFLECT NUMBER NUMBER NUMBER NUMBER SYMBOL
-               | SREFLECT SYMBOL NUMBER NUMBER NUMBER NUMBER 
-               | SREFLECT SYMBOL NUMBER NUMBER NUMBER NUMBER SYMBOL"""
-    cmd = {'op' : p[1], 'constants' : None, 'cs' : None, 'args':[]}
-    arg_start = 2
-    if isinstance(p[2], str):
-        cmd['constants'] = p[2]
-        arg_start = 3
-    if len(p) == 6 and isinstance(p[5], str):
-        cmd['cs'] = p[5]
-    if len(p) == 7 and isinstance(p[6], str):
-          cmd['cs'] = p[6]
-    cmd['args'] = p[arg_start:arg_start+3]
-    commands.append(cmd)
-
-
-def p_command_tetrahedron(p):
-    """command : TETRAHEDRON NUMBER NUMBER NUMBER NUMBER
-               | TETRAHEDRON NUMBER NUMBER NUMBER NUMBER SYMBOL
-               | TETRAHEDRON SYMBOL NUMBER NUMBER NUMBER NUMBER 
-               | TETRAHEDRON SYMBOL NUMBER NUMBER NUMBER NUMBER SYMBOL"""
-    cmd = {'op' : p[1], 'constants' : None, 'cs' : None, 'args':[]}
-    arg_start = 2
-    if isinstance(p[2], str):
-        cmd['constants'] = p[2]
-        arg_start = 3
-    if len(p) == 15 and isinstance(p[14], str):
-        cmd['cs'] = p[14]
-    if len(p) == 16 and isinstance(p[15], str):
-          cmd['cs'] = p[15]
-    cmd['args'] = p[arg_start:arg_start+12]
-    commands.append(cmd)
-
-
-def p_command_pyramid(p):
-    """command : PYRAMID NUMBER NUMBER NUMBER NUMBER NUMBER
-               | PYRAMID SYMBOL NUMBER NUMBER NUMBER NUMBER NUMBER
-               | PYRAMID NUMBER NUMBER NUMBER NUMBER NUMBER SYMBOL
-               | PYRAMID SYMBOL NUMBER NUMBER NUMBER NUMBER NUMBER SYMBOL"""
-    cmd = {'op': p[1], 'constants' : None, 'cs' : None, 'args':[]}
-    arg_start = 2
-    if isinstance(p[2],str):
-        cmd['constants'] = p[2]
-        arg_start = 3
-    if len(p) == 8 and isinstance(p[7],str):
-        cmd['cs'] = p[7]
-    if len(p) == 9 and isinstance(p[8],str):
-        cmd['cs'] = p[8]
-    cmd['args'] = p[arg_start:arg_start+5]
-    commands.append(cmd)
-
-
-def p_command_cone(p):
-    """command : CONE NUMBER NUMBER NUMBER NUMBER NUMBER
-               | CONE SYMBOL NUMBER NUMBER NUMBER NUMBER NUMBER
-               | CONE NUMBER NUMBER NUMBER NUMBER NUMBER SYMBOL
-               | CONE SYMBOL NUMBER NUMBER NUMBER NUMBER NUMBER SYMBOL"""
-    cmd = {'op': p[1], 'constants' : None, 'cs' : None, 'args':[]}
-    arg_start = 2
-    if isinstance(p[2],str):
-        cmd['constants'] = p[2]
-        arg_start = 3
-    if len(p) == 8 and isinstance(p[7],str):
-        cmd['cs'] = p[7]
-    if len(p) == 9 and isinstance(p[8],str):
-        cmd['cs'] = p[8]
-    cmd['args'] = p[arg_start:arg_start+5]
-    commands.append(cmd)
-
-def p_command_cylinder(p):
-    """command : CYLINDER NUMBER NUMBER NUMBER NUMBER NUMBER
-               | CYLINDER SYMBOL NUMBER NUMBER NUMBER NUMBER NUMBER
-               | CYLINDER NUMBER NUMBER NUMBER NUMBER NUMBER SYMBOL
-               | CYLINDER SYMBOL NUMBER NUMBER NUMBER NUMBER NUMBER SYMBOL"""
-    cmd = {'op': p[1], 'constants' : None, 'cs' : None, 'args':[]}
-    arg_start = 2
-    if isinstance(p[2],str):
-        cmd['constants'] = p[2]
-        arg_start = 3
-    if len(p) == 8 and isinstance(p[7],str):
-        cmd['cs'] = p[7]
-    if len(p) == 9 and isinstance(p[8],str):
-        cmd['cs'] = p[8]
-    cmd['args'] = p[arg_start:arg_start+5]
-    commands.append(cmd)
-
-#==============
 
 def p_command_line(p):
     """command : LINE NUMBER NUMBER NUMBER NUMBER NUMBER NUMBER
@@ -514,6 +401,13 @@ def p_command_light(p):
     cmd = {'op':p[1], 'args' : None, 'light' : p[2] }
     commands.append(cmd)
 
+def p_command_view(p):
+    "command : VIEW NUMBER NUMBER NUMBER"
+    symbols['view'] = ['view'] + p[2:]
+    cmd = {'op':p[1], 'args':p[2:]}
+    commands.append(cmd)
+
+
 def p_command_shading(p):
     "command : SHADING SHADING_TYPE"
     symbols['shading'] = ['shade_type', p[2]]
@@ -600,7 +494,6 @@ def parseFile(filename):
         f = open(filename, "r")
         for line in f.readlines():
             line = line.strip()
-            print line
             yacc.parse(line)
         f.close()
         result = (commands[:], deepcopy(symbols))
