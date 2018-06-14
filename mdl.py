@@ -43,10 +43,7 @@ tokens = (
     "SCREEN", 
     "WEB", 
     "CO",
-    "VIEW",
-    "AREFLECT",
-    "DREFELCT",
-    "SREFLECT"
+    "VIEW"
 )
 
 reserved = {
