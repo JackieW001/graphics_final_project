@@ -136,7 +136,7 @@ def run(filename):
 
     p = mdl.parseFile(filename)
     
-    print "Printing p ========================="
+    print "Printing parsed file ========================="
     for each in p[0]:
         print each
     print "===================================="
@@ -188,26 +188,9 @@ def run(filename):
                 draw_polygons(tmp, screen, zbuffer, view, ambient, light, areflect, dreflect, sreflect)
                 tmp = []
 
-            elif c == 'view':
-                view = [args[0], args[1], args[2]]
-
-            elif c == 'ambient':
-                ambient = [args[0], args[1], args[2]]
-
-            elif c == 'light':
-                light = [[args[0], args[1], args[2]],[args[3], args[4], args[5]]]
-
-            elif c == 'areflect':
-                areflect = [args[0], args[1], args[2]]
-
-            elif c == 'dreflect':
-                dreflect = [args[0], args[1], args[2]]
-
-            elif c == 'sreflect':
-                sreflect = [args[0], args[1], args[2]]
 
             elif c == "tetrahedron":
-                print "========================"
+
                 add_tetrahedron(tmp,
                            args[0], args[1], args[2], 
                            args[3])

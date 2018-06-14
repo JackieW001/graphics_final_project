@@ -74,28 +74,6 @@ def draw_polygons( matrix, screen, zbuffer, view, ambient, light, areflect, dref
 
             color = get_lighting(normal, view, ambient, light, areflect, dreflect, sreflect )
             scanline_convert(matrix, point, screen, zbuffer, color)
-
-            # draw_line( int(matrix[point][0]),
-            #            int(matrix[point][1]),
-            #            matrix[point][2],
-            #            int(matrix[point+1][0]),
-            #            int(matrix[point+1][1]),
-            #            matrix[point+1][2],
-            #            screen, zbuffer, color)
-            # draw_line( int(matrix[point+2][0]),
-            #            int(matrix[point+2][1]),
-            #            matrix[point+2][2],
-            #            int(matrix[point+1][0]),
-            #            int(matrix[point+1][1]),
-            #            matrix[point+1][2],
-            #            screen, zbuffer, color)
-            # draw_line( int(matrix[point][0]),
-            #            int(matrix[point][1]),
-            #            matrix[point][2],
-            #            int(matrix[point+2][0]),
-            #            int(matrix[point+2][1]),
-            #            matrix[point+2][2],
-            #            screen, zbuffer, color)
         point+= 3
 
 
@@ -469,7 +447,7 @@ def draw_line( x0, y0, z0, x1, y1, z1, screen, zbuffer, color ):
     plot( screen, zbuffer, color, x, y, z )
 
 
-#THE GRAVE YARD 
+#THE GRAVEYARD 
 '''
 # CIRCLE AND CONE PROTO TYPE CODE
 
