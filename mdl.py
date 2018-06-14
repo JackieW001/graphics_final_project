@@ -195,6 +195,7 @@ def p_command_pyramid(p):
     commands.append(cmd)
     
 def p_command_tetrahedron(p):
+    #            tetrahedron x y z d1
     """command : TETRAHEDRON NUMBER NUMBER NUMBER NUMBER
                | TETRAHEDRON NUMBER NUMBER NUMBER NUMBER SYMBOL
                | TETRAHEDRON SYMBOL NUMBER NUMBER NUMBER NUMBER 
@@ -204,11 +205,11 @@ def p_command_tetrahedron(p):
     if isinstance(p[2], str):
         cmd['constants'] = p[2]
         arg_start = 3
-    if len(p) == 7 and isinstance(p[6], str):
-        cmd['cs'] = p[14]
-    if len(p) ==8 and isinstance(p[7], str):
-          cmd['cs'] = p[15]
-    cmd['args'] = p[arg_start:arg_start+4]
+    if len(p) == 9 and isinstance(p[8], str):
+        cmd['cs'] = p[8]
+    if len(p) == 10 and isinstance(p[9], str):
+          cmd['cs'] = p[9]
+    cmd['args'] = p[arg_start:arg_start+6]
     commands.append(cmd)
     
 def p_command_cylinder(p):

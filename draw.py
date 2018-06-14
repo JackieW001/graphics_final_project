@@ -99,18 +99,32 @@ def draw_polygons( matrix, screen, zbuffer, view, ambient, light, areflect, dref
         point+= 3
 
 
-def add_tetrahedron (polygons, x0, y0, z0, x1, y1, z1, x2, y2, z2, x3, y3 ,z3):
+def add_tetrahedron (polygons, x, y, z, a):
+    h = int(a*sqrt(3)*0.5)
+    x1 = x + (a*0.5)
+    y1 = y+h
+    y2 = y + int(h/3)
+    z1 = z + int(h/3)
+    z2 = z+h
+
+    start = [x, y ,z]
+    b = [x+a, y, z]
+    c = [x1, y1 , z1]
+    d = [x1, y, z2]
 
 
-    top = [x0, y0, z0]
-    left = [x1, y1, z1]
-    right = [x2, y2, z2]
-    back = [x3, y3 ,z3]
+    #front
+    polygon_adder (polygons, start, c, b)
 
-    polygon_adder(polygons, top, left, right)
-    polygon_adder(polygons, top, back, left)
-    polygon_adder(polygons, top, right, back)
-    polygon_adder(polygons, back, right, left)
+    #sides
+    polygon_adder (polygons, b,  c, d)
+    polygon_adder (polygons, start, d,  c)
+
+    #back
+    polygon_adder (polygons, start, b,  d)
+
+
+
 
 def add_pyramid (polygons, x, y, z, w, h):
 
