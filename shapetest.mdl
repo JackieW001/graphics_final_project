@@ -1,0 +1,9 @@
+push
+move 250 250 0
+rotate x 120
+tetrahedron 50 50 0 100 100 0 150 50 0 100 50 100
+cone 0 0 0 50 200
+cylinder 100 100 100 50 200
+view  0 0 0 
+display
+save shape.png

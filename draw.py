@@ -1,7 +1,12 @@
+
 from display import *
 from matrix import *
 from math import *
 from gmath import *
+
+def polygon_adder(polygons, face0, face1, face2):
+    add_polygon(polygons, face0[0], face0[1], face0[2],face1[0], face1[1], face1[2],face2[0], face2[1], face2[2])
+
 
 def scanline_convert(polygons, i, screen, zbuffer, color ):
     flip = False
@@ -93,6 +98,83 @@ def draw_polygons( matrix, screen, zbuffer, view, ambient, light, areflect, dref
             #            screen, zbuffer, color)
         point+= 3
 
+
+def add_tetrahedron (polygons, x0, y0, z0, x1, y1, z1, x2, y2, z2, x3, y3 ,z3):
+
+
+    top = [x0, y0, z0]
+    left = [x1, y1, z1]
+    right = [x2, y2, z2]
+    back = [x3, y3 ,z3]
+
+    polygon_adder(polygons, top, left, right)
+    polygon_adder(polygons, top, back, left)
+    polygon_adder(polygons, top, right, back)
+    polygon_adder(polygons, back, right, left)
+
+def add_pyramid (polygons, x, y, z, w, h):
+
+    xleft = x - 0.5*w
+    ybottom = y - h
+    xright = x + 0.5*2
+    zfront = z + 0.5*w
+    zback = z -0.5*w
+
+    peak = [x,y,z]
+    front_left = [xleft, ybottom, zfront]
+    front_right = [xright, ybottom, zfront]
+    back_left = [xleft, ybottom, zback]
+    back_right = [xright, ybottom, zback]
+
+    polygon_adder(polygons, peak, front_left, front_right)
+    polygon_adder(polygons, peak, back_left, front_left)
+    polygon_adder(polygons, peak, back_right, back_left)
+    polygon_adder(polygons, peak, front_right, back_right)
+    polygon_adder(polygons, front_left, back_left, back_right)
+    polygon_adder(polygons, back_right, front_right, front_left)
+
+
+#creds to mr. dw for his circle code to work with
+
+def add_cone(polygons, x, y, z, r, h, step):
+    x0 = r + x;
+    y0 = y;
+    z0 = z;
+
+    i = 1
+    while i <= step:
+        t = float(i)/step;
+        x1 = r * math.cos(2*math.pi * t) + x
+        z1 = r * math.sin(2*math.pi * t) + y
+        add_polygon(polygons, x, y, z,  x1, y, z1, x0, y, z0)
+        add_polygon(polygons, x0, y, z0, x1, y, z1, x, y+h, z)
+        x0 = x1
+        z0 = z1
+        i+=1
+
+def add_cylinder(polygons, x, y, z, r, h, step):
+    x0 = r + x;
+    y0 = y;
+    z0 = z;
+
+    i = 1
+    while i <= step:
+        t = float(i)/step;
+        x1 = r * math.cos(2*math.pi * t) + x
+        z1 = r * math.sin(2*math.pi * t) + y
+
+        #cone code now with x1/z1
+        add_polygon(polygons, x, y, z,  x1, y, z1, x0, y, z0)
+        add_polygon(polygons, x0, y, z0, x1, y, z1, x1, y+h, z1)
+
+        #new with a y+h! x1<->x0 and z1<->z0 switched
+        add_polygon(polygons, x, y+h, z, x0, y+h, z0, x1, y+h, z1)
+        add_polygon(polygons, x0, y, z0, x1, y+h, z1, x0, y+h, z0)
+
+
+        x0 = x1
+        z0 = z1
+        i+=1
 
 def add_box( polygons, x, y, z, width, height, depth ):
     x1 = x + width
@@ -268,6 +350,9 @@ def add_curve( points, x0, y0, x1, y1, x2, y2, x3, y3, step, curve_type ):
         i+= 1
 
 
+
+
+
 def draw_lines( matrix, screen, zbuffer, color ):
     if len(matrix) < 2:
         print 'Need at least 2 points to draw'
@@ -368,3 +453,46 @@ def draw_line( x0, y0, z0, x1, y1, z1, screen, zbuffer, color ):
         z+= dz
         loop_start+= 1
     plot( screen, zbuffer, color, x, y, z )
+
+
+#THE GRAVE YARD 
+'''
+# CIRCLE AND CONE PROTO TYPE CODE
+
+    
+    bot_circ = []
+ 
+    pointy = [x,y,z]
+    add_circle(bot_circ, x, y, z-h, r, step)
+
+    add_circle(polygons, x, y, z-h, r, step)
+
+    for i in range(len(bot_circ)):
+        if i == len(bot_circ)-1:
+            polygon_adder(polygons, pointy, bot_circ[i], bot_circ[0])
+        else:
+            polygon_adder(polygons, pointy, bot_circ[i], bot_circ[i+1])
+
+
+    #Draw the top/bot circles
+    add_circle(polygons, x, y, z, r, step)
+    add_circle(polygons, x, y-h, z, r, step)
+
+
+    #Get edges of top and bot
+    top_circ = []
+    bot_circ = []
+
+
+    #Loop thru top and bot and connect
+    for i in range(len(top_circ)):
+        if i == len(top_circ)-1:
+            polygon_adder(polygons, top_circ[i], bot_circ[i], top_circ[0])
+            polygon_adder(polygons, bot_circ[i], bot_circ[0], top_circ[0])
+
+        else:
+            polygon_adder(polygons, top_circ[i], bot_circ[i], top_circ[i+1])
+            polygon_adder(polygons, bot_circ[i], bot_circ[i+1], top_circ[i+1])
+
+
+'''

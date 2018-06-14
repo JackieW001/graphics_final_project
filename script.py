@@ -145,19 +145,21 @@ def run(filename):
 
     first_pass(commands)
     second_pass(commands)
-    print "Basename: " + str(basename)
-    print "Num Frames: " + str(num_frames)
+    #print "Basename: " + str(basename)
+    #print "Num Frames: " + str(num_frames)
     #print symbols
 
     for frame in range(int(num_frames)):
-        print "Frame #: " + str(frame)
+        #print "Frame #: " + str(frame)
 
         for knob in knobs[frame]:
             symbols[knob][1] = knobs[frame][knob]
 
+
         for command in commands:
-            print command
+            #print command
             c = command['op']
+            #print c
             args = command['args']
             if not args == None:
                 args = command['args'][:]
@@ -181,6 +183,64 @@ def run(filename):
                 matrix_mult( stack[-1], tmp )
                 draw_polygons(tmp, screen, zbuffer, view, ambient, light, areflect, dreflect, sreflect)
                 tmp = []
+
+            elif c == 'view':
+                view = [args[0], args[1], args[2]]
+
+            elif c == 'ambient':
+                ambient = [args[0], args[1], args[2]]
+
+            elif c == 'light':
+                light = [[args[0], args[1], args[2]],[args[3], args[4], args[5]]]
+
+            elif c == 'areflect':
+                areflect = [args[0], args[1], args[2]]
+
+            elif c == 'dreflect':
+                dreflect = [args[0], args[1], args[2]]
+
+            elif c == 'sreflect':
+                sreflect = [args[0], args[1], args[2]]
+
+            elif c == "tetrahedron":
+                print "========================"
+                add_tetrahedron(tmp,
+                           args[0], args[1], args[2], 
+                           args[3], args[4], args[5], 
+                           args[6], args[7], args[8],
+                           args[9], args[10], args[11])
+
+                matrix_mult( stack[-1], tmp )
+                draw_polygons(tmp, screen, zbuffer, view, ambient, light, areflect, dreflect, sreflect)
+                tmp = []  
+
+
+            elif c == 'pyramid':
+                #print "Testing pyramid"
+                #print True
+                #print "==============="
+                add_pyramid(tmp,
+                           args[0], args[1], args[2], args[3], args[4])
+                matrix_mult( stack[-1], tmp )
+                draw_polygons(tmp, screen, zbuffer, view, ambient, light, areflect, dreflect, sreflect)
+                tmp = []    
+
+
+            elif c == 'cone':
+                add_cone(tmp,
+                           args[0], args[1], args[2], args[3], args[4], step_3d)
+                matrix_mult( stack[-1], tmp )
+                draw_polygons(tmp, screen, zbuffer, view, ambient, light, areflect, dreflect, sreflect)
+                tmp = []             
+
+            elif c == 'cylinder':
+                add_cylinder(tmp,
+                           args[0], args[1], args[2], args[3], args[4], step_3d)
+                matrix_mult( stack[-1], tmp )
+                draw_polygons(tmp, screen, zbuffer, view, ambient, light, areflect, dreflect, sreflect)
+                tmp = []                   
+
+
             elif c == 'sphere':
                 add_sphere(tmp,
                            args[0], args[1], args[2], args[3], step_3d)
