@@ -4,13 +4,13 @@ Period 4
 
 Eric Li and Jackie Woo
 
-## Running 
+### Running 
 1. Install Xquartz
 2. Clone this repo
 3. Run `$make`
 4. Your image will be generated (the default is an image of an airboat)
 
-##  New Functionality  
+###  New Functionality  
 
 1. OBJ Mesh Importing
 
@@ -32,11 +32,11 @@ Eric Li and Jackie Woo
 
    Edit the makefile and try out `newshape.mdl`!
 
-## Note
+### Note
 Some things to note:
 * The OBJ files should not have textures/vertex normals/shading commands. These commands are unnecessary since our graphics engine handles them already.
 * The pyramid is generated from the peak downwards.
 
-## Want to test out more OBJs?
+### Want to test out more OBJs?
 Simply download files more OBJ files from [this link](https://people.sc.fsu.edu/~jburkardt/data/obj/obj.html).
 Our graphics engine will render these files!
