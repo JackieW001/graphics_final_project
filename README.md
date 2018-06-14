@@ -25,11 +25,10 @@ Eric Li and Jackie Woo
 
    Four new shapes were added.
  
-   * Cone 
-      -`(x, y, z, radius, height)`
-   * Cylinder `(x, y, z, radius, height)`
-   * Regular pyramid `(x, y, z, width, height)`
-   * Regular tetrahedron `(x, y, z, edge length)`
+   * Cone                   `(x, y, z, radius, height)`
+   * Cylinder               `(x, y, z, radius, height)`
+   * Regular pyramid        `(x, y, z, width, height)`
+   * Regular tetrahedron    `(x, y, z, edge length)`
 
    Edit the makefile and try out `newshape.mdl`!
 
